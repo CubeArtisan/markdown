@@ -24,11 +24,11 @@ import math from 'remark-math';
 import remark from 'remark-parse';
 import slug from 'remark-slug';
 
-import cardlink from '@cubeartisan/markdown/plugins/cardlink/index.js';
-import cardrow from '@cubeartisan/markdown/plugins/cardrow/index.js';
-import centering from '@cubeartisan/markdown/plugins/centering/index.js';
-import symbols from '@cubeartisan/markdown/plugins/symbols/index.js';
-import userlink from '@cubeartisan/markdown/plugins/userlink/index.js';
+import cardlink from '@cubeartisan/markdown/plugins/cardlink';
+import cardrow from '@cubeartisan/markdown/plugins/cardrow';
+import centering from '@cubeartisan/markdown/plugins/centering';
+import symbols from '@cubeartisan/markdown/plugins/symbols';
+import userlink from '@cubeartisan/markdown/plugins/userlink';
 
 const VALID_SYMBOLS = 'wubrgcmtsqepxyz/-0123456789->+→';
 

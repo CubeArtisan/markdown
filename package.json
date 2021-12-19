@@ -2,11 +2,13 @@
   "name": "@cubeartisan/markdown",
   "version": "1.0.0",
   "license": "AGPL-3.0-only",
-  "main": "index.js",
+  "main": "dist",
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "build": "mkdir -p dist; babel ./index.js --out-file dist/index.cjs --config-file babel.config.cjs",
+    "build": "rm -rf dist && yarn build:mjs && yarn build:cjs",
+    "build:mjs": "babel src -d dist --out-file-extension .mjs --config-file ./babel.esm.cjs",
+    "build:cjs": "babel src -d dist --out-file-extension .cjs --config-file ./babel.cjs.cjs",
     "lint": "eslint --quiet `yarn --silent list-files`",
     "lint:fix": "eslint --fix `yarn --silent list-files`",
     "lint:loud": "eslint `yarn --silent list-files`",
@@ -16,6 +18,12 @@
     "test:loud": "echo no tests yet",
     "test:watch": "echo no tests yet"
   },
+  "files": [
+    "dist/*",
+    "README.md",
+    "LICENSE",
+    "LICENSE.LESSER"
+  ],
   "dependencies": {
     "micromark": "^2.10.1",
     "react-latex": "^2.0.0",
@@ -39,10 +47,11 @@
     "react-is": "^17.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/eslint-parser": "^7.14.7",
-    "@babel/preset-env": "^7.14.7",
-    "@babel/preset-react": "^7.14.5",
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.5",
+    "@babel/eslint-parser": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-react": "7.16.5",
     "@types/react": "^17.0.15",
     "babel-plugin-direct-import": "^1.0.0",
     "babel-plugin-module-resolver": "^4.1.0",

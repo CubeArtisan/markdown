@@ -18,13 +18,13 @@
  */
 import React, { createElement, lazy } from 'react';
 import PropTypes from 'prop-types';
-import { a11yLight, a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs/index.js';
+import { a11yLight, a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 import { Box, Grid, Link } from '@mui/material';
 import { Add, ArrowRightAlt, Link as LinkIcon, Remove } from '@mui/icons-material';
 
-import { LIMITED_PLUGINS, ALL_PLUGINS } from '@cubeartisan/markdown/plugins/index.js';
-import { isInternalURL, isSamePageURL } from '@cubeartisan/markdown/plugins/utils.js';
-import Suspense from '@cubeartisan/markdown/components/Suspense.js';
+import { LIMITED_PLUGINS, ALL_PLUGINS } from '@cubeartisan/markdown/plugins';
+import { isInternalURL, isSamePageURL } from '@cubeartisan/markdown/plugins/utils';
+import Suspense from '@cubeartisan/markdown/components/Suspense';
 
 const ReactMarkdown = lazy(() => import('react-markdown'));
 const Latex = lazy(() => import('react-latex'));

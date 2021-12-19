@@ -1,22 +1,8 @@
-module.exports = (api) => {
+module.exports = (api, presetEnv) => {
   const isTest = api.env('test');
   const config = {
     presets: [
-      [
-        '@babel/preset-env',
-        {
-          targets: {
-            esmodules: true,
-          },
-          loose: true,
-          useBuiltIns: 'entry',
-          corejs: {
-            version: '3.15.2',
-            proposals: true,
-          },
-          shippedProposals: true,
-        },
-      ],
+      presetEnv,
       '@babel/preset-react',
     ],
     plugins: [
@@ -30,14 +16,14 @@ module.exports = (api) => {
         'babel-plugin-module-resolver',
         {
           alias: {
-            '@cubeartisan/markdown': './',
+            '@cubeartisan/markdown': './src',
           },
         },
       ],
       !isTest && [
         'babel-plugin-direct-import',
         {
-          modules: ['@mui/lab', '@mui/material', '@mui/styles'],
+          modules: ['@mui/material'],
         },
       ],
     ].filter(Boolean),

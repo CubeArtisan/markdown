@@ -1,5 +1,5 @@
-import markdownLineEnding from 'micromark/dist/character/markdown-line-ending.js';
-import chunkedSplice from 'micromark/dist/util/chunked-splice.js';
+import markdownLineEnding from 'micromark/dist/character/markdown-line-ending';
+import chunkedSplice from 'micromark/dist/util/chunked-splice';
 
 const resolveCardrow = (events, context) => {
   const contentEnd = 4;

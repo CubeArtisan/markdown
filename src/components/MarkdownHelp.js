@@ -20,7 +20,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Grid, Link, Paper, Typography } from '@mui/material';
 
-import Markdown from '@cubeartisan/markdown/components/Markdown.js';
+import Markdown from '@cubeartisan/markdown/components/Markdown';
 
 const Header = (props) => <Box color="background.darker" {...props} />;
 

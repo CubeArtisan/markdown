@@ -19,11 +19,10 @@ plugins:
 settings:
   import/parser: babel-eslint
   import/resolver: eslint-import-resolver-babel-module
-
 rules:
   import/extensions:
     - error
-    - always
+    - never
   import/no-extraneous-dependencies: ["error", {"devDependencies": true}]
   prettier/prettier:
     - error

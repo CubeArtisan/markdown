@@ -1,10 +1,10 @@
-import markdownSpace from 'micromark/dist/character/markdown-space.js';
-import markdownLineEnding from 'micromark/dist/character/markdown-line-ending.js';
-import spaceFactory from 'micromark/dist/tokenize/factory-space.js';
-import types from 'micromark/lib/constant/types.js';
-import codes from 'micromark/lib/character/codes.js';
+import markdownSpace from 'micromark/dist/character/markdown-space';
+import markdownLineEnding from 'micromark/dist/character/markdown-line-ending';
+import spaceFactory from 'micromark/dist/tokenize/factory-space';
+import types from 'micromark/lib/constant/types';
+import codes from 'micromark/lib/character/codes';
 
-import { shallowEqual } from '@cubeartisan/markdown/plugins/utils.js';
+import { shallowEqual } from '@cubeartisan/markdown/plugins/utils';
 
 const centering = () => {
   let shouldEnd = false;
