@@ -19,29 +19,26 @@
 import React, { createElement, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { a11yLight, a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs/index.js';
-import { LinkIcon } from '@primer/octicons-react';
-import { Row, Card, CardBody } from 'reactstrap';
+import { Box, Grid, Link } from '@mui/material';
+import { Add, ArrowRightAlt, Link as LinkIcon, Remove } from '@mui/icons-material';
 
 import { LIMITED_PLUGINS, ALL_PLUGINS } from '@cubeartisan/markdown/plugins/index.js';
 import { isInternalURL, isSamePageURL } from '@cubeartisan/markdown/plugins/utils.js';
-import styled from '@cubeartisan/markdown/components/styledHelper.js';
 import Suspense from '@cubeartisan/markdown/components/Suspense.js';
 
 const ReactMarkdown = lazy(() => import('react-markdown'));
 const Latex = lazy(() => import('react-latex'));
 const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'));
 
-const ChangelogSymbol = styled('span')`
-  font-family: 'Lucida Console', Monaco, monospace;
-`;
-
 const renderBlockQuote = (node) => (
-  <Card className="quote">
-    <CardBody>{node.children}</CardBody>
-  </Card>
+  <Box sx={{ backgroundColor: 'background.dark', marginBottom: 16, 'p:last-child': { marginBottom: 0 } }}>
+    {node.children}
+  </Box>
 );
 
-const renderImage = (node) => <img className="markdown-image" src={node.src} alt={node.alt} title={node.title} />;
+const renderImage = (node) => (
+  <Box component="img" sx={{ maxWidth: '100%' }} src={node.src} alt={node.alt} title={node.title} />
+);
 
 const renderLink = (ExternalLink) => {
   const RenderLink = ({ href, children, node }) => {
@@ -51,17 +48,25 @@ const renderLink = (ExternalLink) => {
       // heading autolink
       if (node.data?.hChildren) {
         return (
-          <a href={ref} className="heading-link">
-            <LinkIcon size={16} className="link-icon" />
-          </a>
+          <LinkIcon
+            sx={{
+              float: 'left',
+              marginLeft: -24,
+              paddingRight: 8,
+              verticalAlign: 'middle',
+              textDecoration: 'none',
+              visibility: 'hidden',
+              'parent:hover .child': { verticalAlign: 'middle !important', visibility: 'visible' },
+            }}
+          />
         );
       }
 
       const props = isSamePageURL(ref) ? {} : { target: '_blank', rel: 'noopener noreferrer' };
       return (
-        <a href={ref} {...props}>
+        <Link href={ref} {...props}>
           {children}
-        </a>
+        </Link>
       );
     }
 
@@ -120,21 +125,29 @@ const renderUserlink = (node) => {
 
 const renderSymbol = (node) => {
   if (node.value === '->' || node.value === '→') {
-    return <ChangelogSymbol className="badge badge-primary">→</ChangelogSymbol>;
+    return <ArrowRightAlt color="primary" />;
   }
   if (node.value === '-') {
-    return <ChangelogSymbol className="badge badge-danger">-</ChangelogSymbol>;
+    return <Remove color="error" />;
   }
   if (node.value === '+') {
-    return <ChangelogSymbol className="badge badge-success">+</ChangelogSymbol>;
+    return <Add color="success" />;
   }
   const symbol = node.value.replace('/', '-').toLowerCase();
-  return <img src={`/content/symbols/${symbol}.png`} alt={symbol} className="mana-symbol-sm" />;
+  return <Box component="img" sx={{ height: 22 }} src={`/content/symbols/${symbol}.png`} alt={symbol} />;
 };
 
 const renderCentering = (node) => <div className="centered-markdown">{node.children}</div>;
 
-const renderCardrow = (node) => <Row className="cardRow">{node.children}</Row>;
+const renderCardrow = (node) => (
+  <Grid container sx={{ justifyContent: 'center' }}>
+    {node.children.map((child, idx) => (
+      <Grid item xs="auto" key={/* eslint-disable-line react/no-array-index-key */ idx}>
+        {child}
+      </Grid>
+    ))}
+  </Grid>
+);
 
 const Markdown = ({ markdown, limited, CardLink, CardImage, ExternalLink }) => {
   const markdownStr = markdown?.toString() ?? '';

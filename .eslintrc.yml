@@ -17,10 +17,9 @@ plugins:
   - babel
   - promise
 settings:
-  import/resolver:
-    node: {}
-    webpack:
-      config: ./webpack.dev.cjs
+  import/parser: babel-eslint
+  import/resolver: eslint-import-resolver-babel-module
+
 rules:
   import/extensions:
     - error

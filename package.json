@@ -1,6 +1,6 @@
 {
   "name": "@cubeartisan/markdown",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "AGPL-3.0-only",
   "main": "index.js",
   "type": "module",
@@ -11,15 +11,13 @@
     "lint:fix": "eslint --fix `yarn --silent list-files`",
     "lint:loud": "eslint `yarn --silent list-files`",
     "list-files": "git ls-files '*.js' '*.cjs' '*.mjs'",
+    "prepare": "install-peers",
     "test": "echo no tests yet",
     "test:loud": "echo no tests yet",
     "test:watch": "echo no tests yet"
   },
   "dependencies": {
-    "core-js": "^3.15.2",
-    "core-js-pure": "^3.15.2",
     "micromark": "^2.10.1",
-    "prop-types": "^15.7.2",
     "react-latex": "^2.0.0",
     "react-markdown": "^5.0.3",
     "react-syntax-highlighter": "^15.4.3",
@@ -33,24 +31,26 @@
     "unist-util-visit": "^2.0.3"
   },
   "peerDependencies": {
-    "@primer/octicons-react": "^11.0.0",
+    "@mui/icons-material": "^5.2.4",
+    "@mui/material": "^5.2.4",
+    "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-is": "^17.0.2",
-    "reactstrap": "^8.9.0",
-    "styled-components": "^5.3.0"
+    "react-is": "^17.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/eslint-parser": "^7.14.7",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
-    "@cubeartisan/markdown": "^0.1.0",
     "@types/react": "^17.0.15",
+    "babel-plugin-direct-import": "^1.0.0",
+    "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-styled-components": "^1.13.2",
     "eslint": "^7.30.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.11.0",
+    "eslint-import-resolver-babel-module": "^5.3.1",
     "eslint-import-resolver-webpack": "^0.13.1",
     "eslint-plugin-array-func": "^3.1.7",
     "eslint-plugin-babel": "^5.3.0",
@@ -61,12 +61,11 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^4.0.0",
+    "install-peers-cli": "^2.2.0",
     "jest": "26.x.x",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jsdom": "^16.2.2",
-    "prettier": "^2.3.0"
-  },
-  "resolutions": {
-    "styled-components": "^5"
+    "prettier": "^2.3.0",
+    "typescript": "^4.5.4"
   }
 }
