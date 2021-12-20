@@ -23,13 +23,10 @@ module.exports = (api, presetEnv) => {
       !isTest && [
         'babel-plugin-direct-import',
         {
-          modules: ['@mui/material'],
+          modules: ['@mui/material', '@mui/icons-material'],
         },
       ],
     ].filter(Boolean),
   };
-  if (!isTest) {
-    config.presets[0][1].modules = false;
-  }
   return config;
 };

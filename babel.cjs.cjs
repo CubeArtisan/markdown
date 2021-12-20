@@ -4,7 +4,9 @@ module.exports = (api) => sharedConfig(api,
       [
         '@babel/preset-env',
         {
-          modules: 'cjs',
+          targets: {
+            node: '16.10',
+          },
         },
       ],
 );

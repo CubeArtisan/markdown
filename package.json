@@ -1,15 +1,11 @@
 {
   "name": "@cubeartisan/markdown",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "license": "AGPL-3.0-only",
-  "main": "dist/esm/index.js",
-  "browser": "dist/cjs/index.js",
+  "main": "index.js",
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "build": "rm -rf dist && yarn build:esm && yarn build:cjs",
-    "build:esm": "babel src -d dist/esm --out-file-extension .js --config-file ./babel.esm.cjs",
-    "build:cjs": "babel src -d dist/cjs --out-file-extension .js --config-file ./babel.cjs.cjs",
     "lint": "eslint --quiet `yarn --silent list-files`",
     "lint:fix": "eslint --fix `yarn --silent list-files`",
     "lint:loud": "eslint `yarn --silent list-files`",
@@ -20,9 +16,12 @@
     "test:watch": "echo no tests yet"
   },
   "files": [
-    "dist/*",
+    "index.js",
+    "components/",
+    "plugins/",
     "README.md",
     "LICENSE",
+    "LICENSE.CUBECOBRA",
     "LICENSE.LESSER"
   ],
   "dependencies": {
