@@ -549,3 +549,14 @@ MigrationBackup/
 push-docker.ps1
 .direnv/
 yarn.lock
+
+# Yarn 3 ignores
+.pnp.*
+yarn-project.nix
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
