@@ -1,24 +1,26 @@
 env:
   browser: true
-  jest/globals: true
   node: true
 extends:
   - airbnb
   - prettier
   - plugin:array-func/all
-parser: '@babel/eslint-parser'
-parserOptions:
-  ecmaVersion: 2021
-  sourceType: module
+parser: '@typescript-eslint/parser'
 plugins:
-  - jest
   - prettier
   - react-hooks
-  - babel
   - promise
+  - import
+  - "@typescript-eslint"
 settings:
-  import/parser: babel-eslint
-  import/resolver: eslint-import-resolver-babel-module
+  import/parsers:
+    "@typescript-eslint/parser":
+      - .ts
+      - .tsx
+  import/resolver:
+    typescript:
+      alwaysTryTypes: true
+      project: .
 rules:
   import/extensions:
     - error
@@ -74,7 +76,7 @@ overrides:
     rules:
       no-console: error
   - files: ['client/markdown/**/micromark-*']
-    rules: 
+    rules:
       no-use-before-define: ['error', 'nofunc']
   - files: ['server/models/**']
     rules:

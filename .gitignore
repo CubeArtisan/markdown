@@ -554,7 +554,6 @@ yarn.lock
 .pnp.*
 yarn-project.nix
 .yarn/*
-!.yarn/cache
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases

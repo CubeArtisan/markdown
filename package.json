@@ -1,31 +1,36 @@
 {
   "name": "@cubeartisan/markdown",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "AGPL-3.0-only",
-  "main": "index.js",
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "lint": "eslint --quiet `yarn run --silent list-files`",
-    "lint:fix": "eslint --fix `yarn run --silent list-files`",
-    "lint:loud": "eslint `yarn run --silent list-files`",
-    "list-files": "git ls-files '*.js' '*.cjs' '*.mjs'",
+    "lint": "sh -c 'eslint --quiet `yarn run list-files`'",
+    "lint:fix": "sh -c 'eslint --fix `yarn run list-files`'",
+    "lint:loud": "sh -c 'eslint `yarn run list-files`'",
+    "list-files": "echo index.ts components plugins",
     "prepare": "install-peers",
     "test": "echo no tests yet",
     "test:loud": "echo no tests yet",
-    "test:watch": "echo no tests yet"
+    "test:watch": "echo no tests yet",
+    "build": "tsc && vite build"
   },
   "files": [
-    "index.js",
-    "components/",
-    "plugins/",
-    "README.md",
+    "dist",
     "LICENSE",
     "LICENSE.CUBECOBRA",
     "LICENSE.LESSER"
   ],
+  "main": "./dist/@cubeartisan/markdown.umd.cjs",
+  "module": "./dist/@cubeartisan/markdown.js",
+  "exports": {
+    ".": {
+      "import": "./dist/my-lib.js",
+      "require": "./dist/my-lib.umd.cjs"
+    }
+  },
   "dependencies": {
-    "core-js": "^3.22.2",
+    "install-peers": "^1.0.4",
     "micromark": "^3.0.10",
     "react-latex": "^2.0.0",
     "react-markdown": "^8.0.3",
@@ -48,33 +53,25 @@
     "react-is": "^18.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.9",
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/preset-env": "^7.16.11",
-    "@babel/preset-react": "7.16.7",
-    "@types/react": "^18.0.6",
-    "babel-plugin-direct-import": "^1.0.0",
-    "babel-plugin-module-resolver": "^4.1.0",
-    "eslint": "^8.14.0",
+    "@types/react": "^18.0.15",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "@vitejs/plugin-react": "^2.0.0",
+    "eslint": "^8.20.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-import-resolver-babel-module": "^5.3.1",
+    "eslint-import-resolver-typescript": "^3.3.0",
     "eslint-plugin-array-func": "^3.1.7",
-    "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "^26.1.5",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.4.0",
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "install-peers-cli": "^2.2.0",
-    "jest": "26.x.x",
-    "jest-environment-jsdom-sixteen": "^1.0.3",
-    "jsdom": "^16.2.2",
-    "prettier": "^2.6.2",
-    "typescript": "^4.6.3"
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.2"
   },
   "packageManager": "yarn@3.2.0"
 }
