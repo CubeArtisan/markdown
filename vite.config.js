@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import eslint from '@vitejs/plugin-eslint';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import checker from 'vite-plugin-checker';
 
 export default defineConfig({
   build: {
@@ -22,5 +23,14 @@ export default defineConfig({
       },
     },
   },
-  plugins: [eslint(), react()],
+  plugins: [
+    eslint(),
+    react(),
+    checker({
+      typescript: true,
+      eslint: {
+        lintCommand: 'eslint index.ts "components/**/*{.ts,tsx}" "plugins/**/*{.ts,tsx}',
+      },
+    }),
+  ],
 });

@@ -1,10 +1,13 @@
 export function isInternalURL(to) {
-  try {
-    const url = new URL(to, window.location.origin);
-    return url.hostname === window.location.hostname;
-  } catch {
-    return false;
+  if (typeof window !== 'undefined') {
+      try {
+        const url = new URL(to, window.location.origin);
+        return url.hostname === window.location.hostname;
+      } catch {
+        return false;
+      }
   }
+  return false;
 }
 
 export function isSamePageURL(to) {

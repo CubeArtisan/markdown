@@ -1,6 +1,6 @@
-import Markdown from '@cubeartisan/markdown/components/Markdown.js';
-import MarkdownHelp from '@cubeartisan/markdown/components/MarkdownHelp.js';
-import { findUserLinks } from '@cubeartisan/markdown/plugins/index.js';
+import Markdown from '@cubeartisan/markdown/components/Markdown';
+import MarkdownHelp from '@cubeartisan/markdown/components/MarkdownHelp';
+import { findUserLinks } from '@cubeartisan/markdown/plugins';
 
 export const cardMarkdown = ({ name, cardID = null }) => {
   if (cardID) {

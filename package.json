@@ -8,7 +8,7 @@
     "lint": "sh -c 'eslint --quiet `yarn run list-files`'",
     "lint:fix": "sh -c 'eslint --fix `yarn run list-files`'",
     "lint:loud": "sh -c 'eslint `yarn run list-files`'",
-    "list-files": "echo index.ts components plugins",
+    "list-files": "git ls-files '*.ts', '*.tsx'",
     "prepare": "install-peerdeps @cubeartisan/markdown --dev -Y",
     "test": "echo no tests yet",
     "test:loud": "echo no tests yet",
@@ -44,14 +44,16 @@
     "unist-util-visit": "^4.1.0"
   },
   "peerDependencies": {
-    "@mui/icons-material": "^5.2.4",
-    "@mui/material": "^5.2.4",
-    "prop-types": "^15.7.2",
+    "@mui/icons-material": "^5.0.0",
+    "@mui/material": "^5.0.0",
+    "prop-types": "^15.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-is": "^18.0.0"
   },
   "devDependencies": {
+    "@mui/icons-material": "^5.0.0",
+    "@mui/material": "^5.0.0",
     "@types/react": "^18.0.15",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
@@ -69,8 +71,13 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "install-peerdeps": "^3.0.3",
     "prettier": "^2.7.1",
+    "prop-types": "^15.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-is": "^18.0.0",
     "typescript": "^4.7.4",
-    "vite": "^3.0.2"
+    "vite": "^3.0.2",
+    "vite-plugin-checker": "^0.4.9"
   },
   "packageManager": "yarn@3.2.0"
 }

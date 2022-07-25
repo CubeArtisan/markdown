@@ -2,14 +2,12 @@
   "compilerOptions": {
     "checkJs": true,
     "noEmit": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["esnext", "dom"],
     "baseUrl": "./",
     "paths": {
-      "@cubeartisan/server/*": ["server/*"],
-      "@cubeartisan/client/*": ["client/*"],
-      "@cubeartisan/jobs/*": ["jobs/*"]
+      "@cubeartisan/markdown/*": ["src/*"]
     },
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,

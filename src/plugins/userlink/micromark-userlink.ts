@@ -1,4 +1,4 @@
-import markdownLineEndingOrSpace from 'micromark/dist/character/markdown-line-ending-or-space.js';
+import markdownLineEndingOrSpace from 'micromark/dist/character/markdown-line-ending-or-space';
 
 function tokenizeUserlink(effects, ok, nok) {
   const self = this;
