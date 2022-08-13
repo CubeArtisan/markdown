@@ -30,4 +30,6 @@ export const fromMarkdown: Extension = {
   exit: { symbol: exitSymbol, symbolValue: exitSymbolValue },
 };
 
-export default { fromMarkdown };
+const def: { fromMarkdown: Extension } = { fromMarkdown };
+
+export default def;

@@ -17,10 +17,10 @@
  *
  * Modified from the original version in CubeCobra. See LICENSE.CubeCobra for more information.
  */
-import { ComponentType, createElement, lazy, ReactNode, Suspense } from 'react';
+import { ComponentType, createElement, FC, lazy, ReactNode, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { a11yLight, a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
-import { Box, CircularProgress, Grid, Link } from '@mui/material';
+import { Box, CircularProgress, Grid, Link, useTheme } from '@mui/material';
 import { Add, ArrowRightAlt, Link as LinkIcon, Remove } from '@mui/icons-material';
 import type { Blockquote, Image } from 'mdast';
 
@@ -100,16 +100,31 @@ const renderLink = (ExternalLink: ComponentType<{ href: string; children: ReactN
 const renderHeading = (node: HeadingProps) =>
   createElement(`h${node.level}`, node.node?.data?.hProperties ?? {}, node.children);
 
-const renderCode = (node: CodeProps) => {
-  const mode = getComputedStyle(document.body).getPropertyValue('--mode').trim();
-  const style = mode === 'dark' ? a11yDark : a11yLight;
+interface CodeNodeProps {
+  language?: string;
+  value?: string;
+}
+
+const CodeNode: FC<CodeNodeProps> = ({ language, value }) => {
+  const theme = useTheme();
+  const style = theme?.palette?.mode === 'dark' ? a11yDark : a11yLight;
 
   return (
-    <SyntaxHighlighter language={node.language || 'text'} style={style}>
-      {node.value || ''}
+    <SyntaxHighlighter language={language ?? 'text'} style={style}>
+      {value ?? ''}
     </SyntaxHighlighter>
   );
 };
+CodeNode.propTypes = {
+  language: PropTypes.string,
+  value: PropTypes.string,
+};
+CodeNode.defaultProps = {
+  language: 'text',
+  value: '',
+};
+
+const renderCode = ({ language, value }: CodeProps) => <CodeNode language={language} value={value} />;
 
 const renderTable = (node: { children: ReactNode }) => (
   <div className="table-responsive">

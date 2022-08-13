@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "checkJs": true,
-    "noEmit": true,
     "target": "esnext",
     "module": "esnext",
     "lib": ["esnext", "dom"],
@@ -41,7 +40,11 @@
     "moduleResolution": "nodenext",
     "allowJs": true,
     "skipLibCheck": true,
+    "outDir": "markdown/dist",
+    "declaration": true,
+    "declarationMap": true,
     "sourceMap": true
   },
-  "include": ["./markdown"]
+  "include": ["./markdown"],
+  "exclude": ["./markdown/dist"]
 }
