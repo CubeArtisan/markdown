@@ -1,6 +1,9 @@
-function tokenizeCardlink(effects, ok, nok) {
-  const end = (code) => {
-    if (code === 93) {
+import { codes } from 'micromark-util-symbol/codes';
+import type { Code, Construct, Effects, State, TokenizeContext } from 'micromark-util-types';
+
+function tokenizeCardlink(this: TokenizeContext, effects: Effects, ok: State, nok: State): State {
+  const end = (code: Code) => {
+    if (code === codes.rightSquareBracket) {
       effects.consume(code);
       effects.exit('cardlinkEndLabel');
       effects.exit('cardlink');
@@ -10,8 +13,8 @@ function tokenizeCardlink(effects, ok, nok) {
     return nok(code);
   };
 
-  const close = (code) => {
-    if (code !== 93) {
+  const close = (code: Code) => {
+    if (code !== codes.rightSquareBracket) {
       return nok(code);
     }
 
@@ -20,12 +23,12 @@ function tokenizeCardlink(effects, ok, nok) {
     return end;
   };
 
-  function value(code) {
+  function value(code: Code) {
     if (!code || code < 0) {
       return nok(code);
     }
 
-    if (code === 93) {
+    if (code === codes.rightSquareBracket) {
       effects.exit('cardlinkValue');
       return close(code);
     }
@@ -34,8 +37,8 @@ function tokenizeCardlink(effects, ok, nok) {
     return value;
   }
 
-  function valueStart(code) {
-    if (code === 93) {
+  function valueStart(code: Code) {
+    if (code === codes.rightSquareBracket) {
       return nok(code);
     }
 
@@ -43,8 +46,8 @@ function tokenizeCardlink(effects, ok, nok) {
     return value(code);
   }
 
-  function open(code) {
-    if (code !== 91) {
+  function open(code: Code) {
+    if (code !== codes.leftSquareBracket) {
       return nok(code);
     }
 
@@ -53,8 +56,8 @@ function tokenizeCardlink(effects, ok, nok) {
     return valueStart;
   }
 
-  return (code) => {
-    if (code !== 91) {
+  return (code: Code) => {
+    if (code !== codes.leftSquareBracket) {
       throw new Error('expected `[`');
     }
     effects.enter('cardlink');
@@ -64,12 +67,12 @@ function tokenizeCardlink(effects, ok, nok) {
   };
 }
 
-const cardlink = {
+const cardlink: Construct = {
   tokenize: tokenizeCardlink,
 };
 
 export default {
   text: {
-    91: cardlink,
+    [codes.leftSquareBracket]: cardlink,
   },
 };

@@ -1,9 +1,12 @@
-const symbols = (codes) => {
-  const validCodes = codes?.toLowerCase() || '';
+import { codes } from 'micromark-util-symbol/codes';
+import type { Code, Construct, Effects, State } from 'micromark-util-types';
 
-  const tokenizeSymbol = (effects, ok, nok) => {
-    const more = (code) => {
-      if (code === 125) {
+const symbols = (validCodes: string) => {
+  validCodes = validCodes?.toLowerCase() ?? '';
+
+  const tokenizeSymbol = (effects: Effects, ok: State, nok: State): State => {
+    const more = (code: Code) => {
+      if (code === codes.rightCurlyBrace) {
         // '}'
         effects.exit('symbolValue');
         effects.enter('symbolEndMarker');
@@ -13,11 +16,11 @@ const symbols = (codes) => {
         return ok;
       }
 
-      if (code < 0) {
+      if (code ?? -1 < 0) {
         return nok(code);
       }
 
-      const c = String.fromCharCode(code).toLowerCase();
+      const c = String.fromCharCode(code ?? 0).toLowerCase();
       if (validCodes.includes(c)) {
         effects.consume(code);
         return more;
@@ -26,12 +29,12 @@ const symbols = (codes) => {
       return nok(code);
     };
 
-    const open = (code) => {
-      if (code < 0) {
+    const open = (code: Code) => {
+      if (code ?? -1 < 0) {
         return nok(code);
       }
 
-      const c = String.fromCharCode(code).toLowerCase();
+      const c = String.fromCharCode(code ?? 0).toLowerCase();
 
       if (validCodes.includes(c)) {
         effects.enter('symbolValue');
@@ -43,7 +46,7 @@ const symbols = (codes) => {
     };
 
     return (code) => {
-      if (code !== 123) {
+      if (code !== codes.leftCurlyBrace) {
         throw new Error('expected `{`');
       }
       effects.enter('symbol');
@@ -54,13 +57,13 @@ const symbols = (codes) => {
     };
   };
 
-  const symbol = {
+  const symbol: Construct = {
     tokenize: tokenizeSymbol,
   };
 
   return {
     text: {
-      123: symbol,
+      [codes.leftCurlyBrace]: symbol,
     },
   };
 };

@@ -1,36 +1,37 @@
-import markdownSpace from 'micromark/dist/character/markdown-space';
-import markdownLineEnding from 'micromark/dist/character/markdown-line-ending';
-import spaceFactory from 'micromark/dist/tokenize/factory-space';
-import types from 'micromark/lib/constant/types';
-import codes from 'micromark/lib/character/codes';
+/* eslint-disable no-restricted-imports */
+import { markdownSpace, markdownLineEnding } from 'micromark-util-character';
+import { factorySpace } from 'micromark-factory-space';
+import { types } from 'micromark-util-symbol/types';
+import { codes } from 'micromark-util-symbol/codes';
+import type { Code, Construct, Effects, Point, State, TokenizeContext } from 'micromark-util-types';
 
-import { shallowEqual } from '@cubeartisan/markdown/plugins/utils';
+import { shallowEqual } from '../utils.js';
 
 const centering = () => {
   let shouldEnd = false;
   let isOneLine = false;
-  let endMark;
+  let endMark: Point | undefined;
 
-  const oneLineConstruct = { partial: true };
+  const oneLineConstruct: Construct = { partial: true, tokenize: (_0: Effects, ok: State) => ok };
 
-  const tokenizeCentering = (effects, ok, nok) => {
+  const tokenizeCentering = (effects: Effects, ok: State, nok: State) => {
     let size = 0;
 
-    const markOneLine = (code) => {
+    const markOneLine = (code: Code) => {
       isOneLine = true;
       return ok(code);
     };
 
-    const after = (code) => {
+    const after = (code: Code) => {
       if (size < 3) return nok(code);
       if (markdownSpace(code)) {
-        return spaceFactory(effects, after, types.whitespace)(code);
+        return factorySpace(effects, after, types.whitespace)(code);
       }
       return effects.attempt(oneLineConstruct, markOneLine, ok)(code);
     };
 
-    const sequence = (code) => {
-      if (code === 62) {
+    const sequence = (code: Code) => {
+      if (code === codes.greaterThan) {
         size += 1;
         effects.consume(code);
         return sequence;
@@ -39,8 +40,8 @@ const centering = () => {
       return after(code);
     };
 
-    return (code) => {
-      if (code !== 62) {
+    return (code: Code) => {
+      if (code !== codes.greaterThan) {
         throw new Error('expected `>`');
       }
       effects.enter('centering', { _container: true });
@@ -49,12 +50,12 @@ const centering = () => {
     };
   };
 
-  const tokenizeCenteringEnd = (effects, ok, nok) => {
+  const tokenizeCenteringEnd = (effects: Effects, ok: State, nok: State) => {
     let size = 0;
 
-    const after = (code) => {
+    const after = (code: Code) => {
       if (markdownSpace(code)) {
-        return spaceFactory(effects, after, types.whitespace)(code);
+        return factorySpace(effects, after, types.whitespace)(code);
       }
 
       if (code === codes.eof || markdownLineEnding(code)) {
@@ -64,8 +65,8 @@ const centering = () => {
       return nok(code);
     };
 
-    const sequence = (code) => {
-      if (code === 60) {
+    const sequence = (code: Code) => {
+      if (code === codes.lessThan) {
         size += 1;
         effects.consume(code);
         return sequence;
@@ -75,7 +76,7 @@ const centering = () => {
       return after(code);
     };
 
-    return (code) => {
+    return (code: Code) => {
       effects.enter('centeringSuffix');
       return sequence(code);
     };
@@ -83,16 +84,16 @@ const centering = () => {
 
   const endingConstruct = { tokenize: tokenizeCenteringEnd, partial: true };
 
-  oneLineConstruct.tokenize = (effects, ok, nok) => {
-    const end = (code) => {
+  oneLineConstruct.tokenize = (effects: Effects, ok: State, nok: State) => {
+    const end = (code: Code) => {
       effects.exit('centeringLineValue');
       return effects.attempt(endingConstruct, ok)(code);
     };
 
-    let consumeLt;
+    let consumeLt: State;
 
-    const content = (code) => {
-      if (code === 60) {
+    const content = (code: Code) => {
+      if (code === codes.lessThan) {
         return effects.check(endingConstruct, end, consumeLt)(code);
       }
       if (!code || markdownLineEnding(code)) {
@@ -102,8 +103,8 @@ const centering = () => {
       return content;
     };
 
-    consumeLt = (code) => {
-      if (code !== 60) {
+    consumeLt = (code: Code) => {
+      if (code !== codes.lessThan) {
         throw new Error('expected `<`');
       }
       effects.consume(code);
@@ -116,11 +117,11 @@ const centering = () => {
     };
   };
 
-  function tokenizeCenteringContinuation(effects, ok, nok) {
+  function tokenizeCenteringContinuation(this: TokenizeContext, effects: Effects, ok: State, nok: State): State {
     if (isOneLine) return nok;
     const now = this.now();
 
-    const markEnd = (code) => {
+    const markEnd = (code: Code) => {
       // we want to include the closing fence in the block, but exit on the next line
       shouldEnd = true;
       // marking the point before the fence so that it can be checked in parent function.
@@ -130,10 +131,10 @@ const centering = () => {
     // the tokenization can be callled twice on the same input, so we have to check where we are as well
     // otherwise the second invocation on the closing fence would return nok, which we don't want
     if (shouldEnd && !shallowEqual(now, endMark)) return nok;
-    return spaceFactory(effects, effects.attempt(endingConstruct, markEnd, ok), types.linePrefix, 4);
+    return factorySpace(effects, effects.attempt(endingConstruct, markEnd, ok), types.linePrefix, 4);
   }
 
-  const exit = (effects) => {
+  const exit = (effects: Effects) => {
     effects.exit('centering');
     shouldEnd = false;
     isOneLine = false;
@@ -144,11 +145,11 @@ const centering = () => {
     tokenize: tokenizeCentering,
     continuation: { tokenize: tokenizeCenteringContinuation },
     exit,
-  };
+  } as Construct;
 };
 
 export default {
   document: {
-    62: centering(), // '>'
+    [codes.greaterThan]: centering(),
   },
 };

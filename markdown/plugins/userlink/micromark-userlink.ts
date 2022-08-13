@@ -1,10 +1,12 @@
-import markdownLineEndingOrSpace from 'micromark/dist/character/markdown-line-ending-or-space';
+import { markdownLineEndingOrSpace } from 'micromark-util-character';
+import type { Code, Effects, State, TokenizeContext } from 'micromark-util-types';
+import { codes } from 'micromark-util-symbol/codes';
 
-function tokenizeUserlink(effects, ok, nok) {
+function tokenizeUserlink(this: TokenizeContext, effects: Effects, ok: State, nok: State): State {
   const self = this;
 
-  const more = (code) => {
-    if (/[a-zA-Z0-9]/.test(String.fromCharCode(code))) {
+  const more = (code: Code) => {
+    if (/[a-zA-Z0-9]/.test(String.fromCharCode(code ?? 0))) {
       effects.consume(code);
       return more;
     }
@@ -14,8 +16,8 @@ function tokenizeUserlink(effects, ok, nok) {
   };
 
   // make sure at least one alphanum. char is after the '@'
-  const open = (code) => {
-    if (/[a-zA-Z0-9]/.test(String.fromCharCode(code))) {
+  const open = (code: Code) => {
+    if (/[a-zA-Z0-9]/.test(String.fromCharCode(code ?? 0))) {
       effects.enter('userlinkValue');
       effects.consume(code);
       return more;
@@ -23,8 +25,8 @@ function tokenizeUserlink(effects, ok, nok) {
     return nok(code);
   };
 
-  return (code) => {
-    if (code !== 64) {
+  return (code: Code) => {
+    if (code !== codes.atSign) {
       throw new Error('expected `@`');
     }
     // '@' shouldn't be preceded by an actual character
@@ -46,6 +48,6 @@ const userlink = {
 
 export default {
   text: {
-    64: userlink, // '@'
+    [codes.atSign]: userlink, // '@'
   },
 };

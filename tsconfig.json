@@ -7,7 +7,7 @@
     "lib": ["esnext", "dom"],
     "baseUrl": "./",
     "paths": {
-      "@cubeartisan/markdown/*": ["src/*"]
+      "@cubeartisan/markdown/*": ["./markdown/*"]
     },
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
@@ -40,9 +40,8 @@
     "jsx": "react-jsx",
     "moduleResolution": "nodenext",
     "allowJs": true,
-    "typeRoots": ["./typings", "node_modules/@types"],
     "skipLibCheck": true,
     "sourceMap": true
   },
-  "include": ["index.ts", "components", "plugins"]
+  "include": ["./markdown"]
 }

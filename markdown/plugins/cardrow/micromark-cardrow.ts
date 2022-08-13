@@ -1,7 +1,9 @@
-import markdownLineEnding from 'micromark/dist/character/markdown-line-ending';
-import chunkedSplice from 'micromark/dist/util/chunked-splice';
+import { codes } from 'micromark-util-symbol/codes';
+import { markdownLineEnding } from 'micromark-util-character';
+import { splice } from 'micromark-util-chunked';
+import type { Construct, ContentType, Effects, Event, State, TokenizeContext } from 'micromark-util-types';
 
-const resolveCardrow = (events, context) => {
+const resolveCardrow = (events: Array<Event>, context: TokenizeContext) => {
   const contentEnd = 4;
   const contentStart = 3;
 
@@ -12,17 +14,17 @@ const resolveCardrow = (events, context) => {
     type: 'chunkText',
     start: events[contentStart][1].start,
     end: events[contentEnd][1].end,
-    contentType: 'text',
+    contentType: 'text' as ContentType,
   };
 
-  chunkedSplice(events, contentEnd, 0, [['exit', text, context]]);
-  chunkedSplice(events, contentStart + 1, 0, [['enter', text, context]]);
+  splice(events, contentEnd, 0, [['exit', text, context]]);
+  splice(events, contentStart + 1, 0, [['enter', text, context]]);
   return events;
 };
 
-function tokenizeEnd(effects, ok, nok) {
-  const end = (code) => {
-    if (code === 62) {
+function tokenizeEnd(this: TokenizeContext, effects: Effects, ok: State, nok: State): State {
+  const end = (code: number | null) => {
+    if (code === codes.greaterThan) {
       effects.consume(code);
       effects.exit('cardrowEndLabel');
       return ok;
@@ -31,8 +33,8 @@ function tokenizeEnd(effects, ok, nok) {
     return nok(code);
   };
 
-  return (code) => {
-    if (code === 62) {
+  return (code: number | null) => {
+    if (code === codes.greaterThan) {
       effects.exit('cardrowContent');
       effects.enter('cardrowEndLabel');
       effects.consume(code);
@@ -43,26 +45,26 @@ function tokenizeEnd(effects, ok, nok) {
   };
 }
 
-const tokenizeCardrow = (effects, ok, nok) => {
+const tokenizeCardrow = (effects: Effects, ok: State, nok: State): State => {
   const closingConstruct = { tokenize: tokenizeEnd, partial: true };
 
-  let content;
+  let content: State;
 
-  const consumeGt = (code) => {
-    if (code !== 62) {
+  const consumeGt = (code: number | null) => {
+    if (code !== codes.greaterThan) {
       throw new Error('expected `>`');
     }
     effects.consume(code);
     return content;
   };
 
-  const after = (code) => {
+  const after = (code: number | null) => {
     effects.exit('cardrow');
     return ok(code);
   };
 
-  content = (code) => {
-    if (code === 62) {
+  content = (code: number | null) => {
+    if (code === codes.greaterThan) {
       return effects.attempt(closingConstruct, after, consumeGt)(code);
     }
 
@@ -74,16 +76,16 @@ const tokenizeCardrow = (effects, ok, nok) => {
     return content;
   };
 
-  const contentStart = (code) => {
-    if (!code || markdownLineEnding(code) || code === 62) {
+  const contentStart = (code: number | null) => {
+    if (!code || markdownLineEnding(code) || code === codes.greaterThan) {
       return nok(code);
     }
 
     return content(code);
   };
 
-  const openingSequence = (code) => {
-    if (code === 60) {
+  const openingSequence = (code: number | null) => {
+    if (code === codes.lessThan) {
       effects.consume(code);
       effects.exit('cardrowStartLabel');
       effects.enter('cardrowContent');
@@ -93,8 +95,8 @@ const tokenizeCardrow = (effects, ok, nok) => {
     return nok(code);
   };
 
-  return (code) => {
-    if (code !== 60) {
+  return (code: number | null) => {
+    if (code !== codes.lessThan) {
       throw new Error('expected `<`');
     }
     effects.enter('cardrow');
@@ -104,13 +106,13 @@ const tokenizeCardrow = (effects, ok, nok) => {
   };
 };
 
-const cardrow = {
+const cardrow: Construct = {
   tokenize: tokenizeCardrow,
   resolve: resolveCardrow,
 };
 
 export default {
   text: {
-    60: cardrow,
+    [codes.lessThan]: cardrow,
   },
 };

@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 /**
  * This file is part of CubeArtisan.
  *
@@ -16,7 +17,7 @@
  *
  * Modified from the original version in CubeCobra. See LICENSE.CubeCobra for more information.
  */
-import unified from 'unified';
+import { unified } from 'unified';
 import headings from 'remark-autolink-headings';
 import breaks from 'remark-breaks';
 import gfm from 'remark-gfm';
@@ -24,33 +25,34 @@ import math from 'remark-math';
 import remark from 'remark-parse';
 import slug from 'remark-slug';
 
-import cardlink from '@cubeartisan/markdown/plugins/cardlink';
-import cardrow from '@cubeartisan/markdown/plugins/cardrow';
-import centering from '@cubeartisan/markdown/plugins/centering';
-import symbols from '@cubeartisan/markdown/plugins/symbols';
-import userlink from '@cubeartisan/markdown/plugins/userlink';
+import type { PluggableList } from 'react-markdown/lib/react-markdown.js';
+import cardlink from './cardlink/index.js';
+import cardrow from './cardrow/index.js';
+import centering from './centering/index.js';
+import symbols from './symbols/index.js';
+import userlink from './userlink/index.js';
 
 const VALID_SYMBOLS = 'wubrgcmtsqepxyz/-0123456789->+→';
 
-const BASE_PLUGINS = [
-  cardrow,
-  centering,
-  math,
-  cardlink,
+const FUNCTION_PLUGINS: PluggableList = [cardrow, centering, math, cardlink];
+
+const ARRAY_PLUGINS: PluggableList = [
   [gfm, { singleTilde: false }],
   [symbols, { allowed: VALID_SYMBOLS }],
 ];
+
+const BASE_PLUGINS: PluggableList = [...FUNCTION_PLUGINS, ...ARRAY_PLUGINS];
 
 export const LIMITED_PLUGINS = [...BASE_PLUGINS, userlink, breaks];
 
 export const ALL_PLUGINS = [...LIMITED_PLUGINS, slug, headings];
 
-export function findUserLinks(text) {
-  const mentions = [];
+export function findUserLinks(text: string) {
+  const mentions: string[] = [];
   const processor = unified()
     .use(remark)
     .use(BASE_PLUGINS)
-    .use(userlink, { callback: (name) => mentions.push(name) });
+    .use(userlink, { callback: (name: string) => mentions.push(name) });
   processor.runSync(processor.parse(text));
   return mentions;
 }
@@ -61,4 +63,9 @@ export default {
   BASE_PLUGINS,
   LIMITED_PLUGINS,
   ALL_PLUGINS,
+  cardrow,
+  centering,
+  cardlink,
+  symbols,
+  userlink,
 };

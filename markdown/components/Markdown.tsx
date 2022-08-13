@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 /**
  * This file is part of CubeArtisan.
  *
@@ -16,31 +17,36 @@
  *
  * Modified from the original version in CubeCobra. See LICENSE.CubeCobra for more information.
  */
-import { createElement, lazy } from 'react';
+import { ComponentType, createElement, lazy, ReactNode, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { a11yLight, a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
-import { Box, Grid, Link } from '@mui/material';
+import { Box, CircularProgress, Grid, Link } from '@mui/material';
 import { Add, ArrowRightAlt, Link as LinkIcon, Remove } from '@mui/icons-material';
+import type { Blockquote, Image } from 'mdast';
 
-import { LIMITED_PLUGINS, ALL_PLUGINS } from '@cubeartisan/markdown/plugins';
-import { isInternalURL, isSamePageURL } from '@cubeartisan/markdown/plugins/utils';
-import Suspense from '@cubeartisan/markdown/components/Suspense';
+import type { CodeProps, HeadingProps } from 'react-markdown/lib/ast-to-react.js';
+import { LIMITED_PLUGINS, ALL_PLUGINS } from '../plugins/index.js';
+import { isInternalURL, isSamePageURL } from '../plugins/utils.js';
+import type { UserLinkLiteral } from '../plugins/userlink/mdast-userlink.js';
+import type { SymbolLiteral } from '../plugins/symbols/mdast-symbols.js';
+import type { CenteringLiteral } from '../plugins/centering/mdast-centering.js';
+import type { CardRow } from '../plugins/cardrow/mdast-cardrow.js';
 
 const ReactMarkdown = lazy(() => import('react-markdown'));
 const Latex = lazy(() => import('react-latex'));
 const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter'));
 
-const renderBlockQuote = (node) => (
+const renderBlockQuote = (node: Blockquote) => (
   <Box sx={{ backgroundColor: 'background.dark', marginBottom: 16, 'p:last-child': { marginBottom: 0 } }}>
     {node.children}
   </Box>
 );
 
-const renderImage = (node) => (
-  <Box component="img" sx={{ maxWidth: '100%' }} src={node.src} alt={node.alt} title={node.title} />
+const renderImage = (node: Image) => (
+  <Box component="img" sx={{ maxWidth: '100%' }} src={node.url ?? ''} alt={node.alt ?? ''} title={node.title ?? ''} />
 );
 
-const renderLink = (ExternalLink) => {
+const renderLink = (ExternalLink: ComponentType<{ href: string; children: ReactNode }>) => {
   const RenderLink = ({ href, children, node }) => {
     const ref = href ?? '';
 
@@ -91,9 +97,10 @@ const renderLink = (ExternalLink) => {
   return RenderLink;
 };
 
-const renderHeading = (node) => createElement(`h${node.level}`, node.node?.data?.hProperties ?? {}, node.children);
+const renderHeading = (node: HeadingProps) =>
+  createElement(`h${node.level}`, node.node?.data?.hProperties ?? {}, node.children);
 
-const renderCode = (node) => {
+const renderCode = (node: CodeProps) => {
   const mode = getComputedStyle(document.body).getPropertyValue('--mode').trim();
   const style = mode === 'dark' ? a11yDark : a11yLight;
 
@@ -104,17 +111,17 @@ const renderCode = (node) => {
   );
 };
 
-const renderTable = (node) => (
+const renderTable = (node: { children: ReactNode }) => (
   <div className="table-responsive">
     <table className="table table-bordered">{node.children}</table>
   </div>
 );
 
-const renderMath = (node) => <Latex trusted={false} displayMode>{`$$ ${node.value} $$`}</Latex>;
+const renderMath = (node: { value: string }) => <Latex trust={false} displayMode>{`$$ ${node.value} $$`}</Latex>;
 
-const renderInlineMath = (node) => <Latex trusted={false}>{`$ ${node.value} $`}</Latex>;
+const renderInlineMath = (node: { value: string }) => <Latex trust={false}>{`$ ${node.value} $`}</Latex>;
 
-const renderUserlink = (node) => {
+const renderUserlink = (node: UserLinkLiteral) => {
   const name = node.value;
   return (
     <a href={`/user/${name}`} target="_blank" rel="noopener noreferrer">
@@ -123,7 +130,7 @@ const renderUserlink = (node) => {
   );
 };
 
-const renderSymbol = (node) => {
+const renderSymbol = (node: SymbolLiteral) => {
   if (node.value === '->' || node.value === '→') {
     return <ArrowRightAlt color="primary" />;
   }
@@ -137,9 +144,9 @@ const renderSymbol = (node) => {
   return <Box component="img" sx={{ height: 22 }} src={`/content/symbols/${symbol}.png`} alt={symbol} />;
 };
 
-const renderCentering = (node) => <div className="centered-markdown">{node.children}</div>;
+const renderCentering = (node: CenteringLiteral) => <div className="centered-markdown">{node.children}</div>;
 
-const renderCardrow = (node) => (
+const renderCardrow = (node: CardRow) => (
   <Grid container sx={{ justifyContent: 'center' }}>
     {node.children.map((child, idx) => (
       <Grid item xs="auto" key={/* eslint-disable-line react/no-array-index-key */ idx}>
@@ -172,8 +179,12 @@ const Markdown = ({ markdown, limited, CardLink, CardImage, ExternalLink }) => {
     cardrow: renderCardrow,
   };
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ReactMarkdown className="markdown" plugins={limited ? LIMITED_PLUGINS : ALL_PLUGINS} renderers={RENDERERS}>
+    <Suspense fallback={<CircularProgress />}>
+      <ReactMarkdown
+        className="markdown"
+        remarkPlugins={limited ? LIMITED_PLUGINS : ALL_PLUGINS}
+        components={RENDERERS}
+      >
         {markdownStr}
       </ReactMarkdown>
     </Suspense>

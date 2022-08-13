@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 /**
  * This file is part of CubeArtisan.
  *
@@ -16,15 +17,14 @@
  *
  * Modified from the original version in CubeCobra. See LICENSE.CubeCobra for more information.
  */
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid, Link, Paper, Typography } from '@mui/material';
+import { Box, BoxProps, Grid, Link, Paper, Typography } from '@mui/material';
 
-import Markdown from '@cubeartisan/markdown/components/Markdown';
+import Markdown from './Markdown.js';
 
-const Header = (props) => <Box color="background.darker" {...props} />;
+const Header = (props: BoxProps = {}) => <Box color="background.darker" {...props} />;
 
-const Body = (props) => <Box {...props} />;
+const Body = (props: BoxProps = {}) => <Box {...props} />;
 
 export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) => (
   <Paper elevation={2} sx={{ marginY: 3, marginX: 4 }}>
@@ -88,7 +88,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         a card name, like so:
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -98,7 +98,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -123,7 +123,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         will be whatever is to the left of the pipe (|).For example:
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -135,7 +135,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -157,7 +157,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         specific IDs.
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -169,7 +169,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -189,7 +189,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         width of the screen, so try it out on different screen widths to make sure you're happy with it, like so:
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -197,7 +197,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -214,7 +214,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       <br />
       <Typography variant="body1">For DFCs, you can similarly add a slash to get the back side in autocard.</Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -224,7 +224,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -244,7 +244,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         double angle brackets. This feature is not available for blog posts. Take the following example:
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -254,7 +254,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -270,7 +270,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       </Grid>
       <br />
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -280,7 +280,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -302,7 +302,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       </Typography>
       <Typography variant="body1">Symbols can be added using curly braces. Most MTG symbols are supported.</Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -312,7 +312,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -329,7 +329,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       <br />
       <Typography variant="body1">Create hybrid symbols by including a slash.</Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -339,7 +339,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -356,7 +356,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       <br />
       <Typography variant="body1">Similarly, we can do hybrid color/2 colorless symbols, and Phrexian mana.</Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -368,7 +368,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -387,7 +387,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         There are many more symbols available. Anything you'd see in a text box, we should support. For example:
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -397,7 +397,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -419,7 +419,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       </Typography>
       <Typography variant="body1">You can link to a user by adding an @ before the username.</Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -429,7 +429,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -454,7 +454,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         LaTeX.
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -464,7 +464,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -480,7 +480,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       </Grid>
       <br />
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -494,7 +494,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -511,7 +511,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       <br />
       <Typography variant="body1">You can use LaTeX in headers, and in block quotes as well.</Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -523,7 +523,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -551,7 +551,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       </Typography>
       <Typography variant="body1">For strikethrough text, wrap the text in double tilde.</Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -561,7 +561,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -582,7 +582,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       </Typography>
       <Typography variant="body1">You can center elements by wrapping them in triple angle brackets.</Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -592,7 +592,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -612,7 +612,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         centered block.
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -622,7 +622,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -637,7 +637,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         </Grid>
       </Grid>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -651,7 +651,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -666,7 +666,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         </Grid>
       </Grid>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -683,7 +683,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -707,7 +707,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         have to be vertically aligned, but it helps readability.
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -721,7 +721,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -741,7 +741,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         also support basic formatting.
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -757,7 +757,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -780,7 +780,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
       </Typography>
       <Typography variant="body1">Adding brackets to a list turns it into a task list.</Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -798,7 +798,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
@@ -827,7 +827,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
         </Link>
       </Typography>
       <Grid container>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Source</Header>
             <Body>
@@ -843,7 +843,7 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             </Body>
           </Paper>
         </Grid>
-        <Grid item xs="12" sm="6">
+        <Grid item xs={12} sm={6}>
           <Paper elevation={4}>
             <Header>Result</Header>
             <Body>
