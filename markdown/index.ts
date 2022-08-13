@@ -22,6 +22,8 @@ export const replaceCardMarkdown = (oldCard: MarkdownCard, newCard: MarkdownCard
 
 export { MarkdownHelp, Markdown } from './components/index.js';
 
+export { findUserLinks } from './plugins/index.js';
+
 export * as plugins from './plugins/index.js';
 
 export default Markdown;
