@@ -1,6 +1,6 @@
 {
   "name": "@cubeartisan/markdown",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "license": "AGPL-3.0-only",
   "type": "module",
   "sideEffects": false,
@@ -85,6 +85,7 @@
     "prop-types": "^15.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.2.0",
+    "rehype-stringify": "^9.0.3",
     "typescript": "^4.7.4",
     "vite": "^3.0.2"
   }

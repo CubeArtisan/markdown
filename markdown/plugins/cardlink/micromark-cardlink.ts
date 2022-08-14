@@ -23,7 +23,7 @@ function tokenizeCardlink(this: TokenizeContext, effects: Effects, ok: State, no
     return end;
   };
 
-  function value(code: Code) {
+  const value = (code: Code) => {
     if (!code || code < 0) {
       return nok(code);
     }
@@ -35,16 +35,16 @@ function tokenizeCardlink(this: TokenizeContext, effects: Effects, ok: State, no
 
     effects.consume(code);
     return value;
-  }
+  };
 
-  function valueStart(code: Code) {
+  const valueStart = (code: Code) => {
     if (code === codes.rightSquareBracket) {
       return nok(code);
     }
 
     effects.enter('cardlinkValue');
     return value(code);
-  }
+  };
 
   function open(code: Code) {
     if (code !== codes.leftSquareBracket) {

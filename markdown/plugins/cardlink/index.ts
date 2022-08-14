@@ -24,7 +24,12 @@ function oncard(node: CardLiteral) {
   }
 
   [node.name, node.id] = node.value.split('|');
-  if (typeof node.id === 'undefined') node.id = node.name;
+  if (typeof node.id === 'undefined') {
+    [node.name, node.id] = node.value.split('::');
+    if (typeof node.id === 'undefined') {
+      node.id = node.name;
+    }
+  }
 }
 
 // eslint-disable-next-line no-unused-vars
