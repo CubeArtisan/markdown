@@ -20,17 +20,18 @@
 import { ComponentType, createElement, FC, lazy, ReactNode, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { a11yLight, a11yDark } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
-import { Box, CircularProgress, Grid, Link, useTheme } from '@mui/material';
+import { Box, CircularProgress, Grid, Link, Typography, useTheme } from '@mui/material';
 import { Add, ArrowRightAlt, Link as LinkIcon, Remove } from '@mui/icons-material';
 import type { Blockquote, Image } from 'mdast';
 
 import type { CodeProps, HeadingProps } from 'react-markdown/lib/ast-to-react.js';
-import { LIMITED_PLUGINS, ALL_PLUGINS } from '../plugins/index.js';
+import { LIMITED_PLUGINS, ALL_PLUGINS, remarkRehypeOptions } from '../plugins/index.js';
 import { isInternalURL, isSamePageURL } from '../plugins/utils.js';
 import type { UserLinkLiteral } from '../plugins/userlink/mdast-userlink.js';
 import type { SymbolLiteral } from '../plugins/symbols/mdast-symbols.js';
 import type { CenteringLiteral } from '../plugins/centering/mdast-centering.js';
 import type { CardRow } from '../plugins/cardrow/mdast-cardrow.js';
+import type { CardLiteral } from '../plugins/cardlink/mdast-cardlink.js';
 
 const ReactMarkdown = lazy(() => import('react-markdown'));
 const Latex = lazy(() => import('react-latex'));
@@ -46,7 +47,7 @@ const renderImage = (node: Image) => (
   <Box component="img" sx={{ maxWidth: '100%' }} src={node.url ?? ''} alt={node.alt ?? ''} title={node.title ?? ''} />
 );
 
-const renderLink = (ExternalLink: ComponentType<{ href: string; children: ReactNode }>) => {
+const renderLink = (renderExternalLink: ComponentType<{ href: string; children: ReactNode }>) => {
   const RenderLink = ({ href, children, node }) => {
     const ref = href ?? '';
 
@@ -75,6 +76,7 @@ const renderLink = (ExternalLink: ComponentType<{ href: string; children: ReactN
         </Link>
       );
     }
+    const ExternalLink = renderExternalLink;
 
     return (
       /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
@@ -171,11 +173,27 @@ const renderCardrow = (node: CardRow) => (
   </Grid>
 );
 
-const Markdown = ({ markdown, limited, CardLink, CardImage, ExternalLink }) => {
+const renderParagraph = (props) => <Typography paragraph variant="body1" {...props} />;
+
+interface MarkdownPropTypes {
+  markdown: string;
+  limited?: boolean;
+  renderCardLink: ComponentType<CardLiteral>;
+  renderCardImage: ComponentType<CardLiteral>;
+  renderExternalLink: ComponentType<{ href: string; children: ReactNode }>;
+}
+
+const Markdown: FC<MarkdownPropTypes> = ({
+  markdown,
+  limited,
+  renderCardLink,
+  renderCardImage,
+  renderExternalLink,
+}) => {
   const markdownStr = markdown?.toString() ?? '';
   const RENDERERS = {
     // overridden defaults
-    link: renderLink(ExternalLink),
+    a: renderLink(renderExternalLink),
     linkReference: renderLink,
     image: renderImage,
     imageReference: renderImage,
@@ -183,21 +201,23 @@ const Markdown = ({ markdown, limited, CardLink, CardImage, ExternalLink }) => {
     heading: renderHeading,
     code: renderCode,
     table: renderTable,
+    p: renderParagraph,
     // plugins
     math: renderMath,
     inlineMath: renderInlineMath,
     userlink: renderUserlink,
     symbol: renderSymbol,
-    cardlink: CardLink,
-    cardimage: CardImage,
+    cardlink: renderCardLink,
+    cardimage: renderCardImage,
     centering: renderCentering,
     cardrow: renderCardrow,
   };
+
   return (
     <Suspense fallback={<CircularProgress />}>
       <ReactMarkdown
-        className="markdown"
-        remarkPlugins={limited ? LIMITED_PLUGINS : ALL_PLUGINS}
+        remarkPlugins={limited ? LIMITED_PLUGINS : ALL_PLUGINS /* @ts-ignore */}
+        remarkRehypeOptions={remarkRehypeOptions}
         components={RENDERERS}
       >
         {markdownStr}
@@ -208,12 +228,12 @@ const Markdown = ({ markdown, limited, CardLink, CardImage, ExternalLink }) => {
 Markdown.propTypes = {
   markdown: PropTypes.string.isRequired,
   limited: PropTypes.bool,
-  CardLink: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
-  CardImage: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
-  ExternalLink: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+  renderCardLink: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
+  renderCardImage: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
+  renderExternalLink: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 };
 Markdown.defaultProps = {
-  ExternalLink: 'a',
+  renderExternalLink: Link,
 };
 Markdown.defaultProps = {
   limited: false,

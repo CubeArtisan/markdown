@@ -1,71 +1,53 @@
 import { codes } from 'micromark-util-symbol/codes';
 import type { Code, Construct, Effects, State } from 'micromark-util-types';
 
-const symbols = (validCodes: string) => {
-  validCodes = validCodes?.toLowerCase() ?? '';
-
-  const tokenizeSymbol = (effects: Effects, ok: State, nok: State): State => {
-    const more = (code: Code) => {
-      if (code === codes.rightCurlyBrace) {
-        // '}'
-        effects.exit('symbolValue');
-        effects.enter('symbolEndMarker');
-        effects.consume(code);
-        effects.exit('symbolEndMarker');
-        effects.exit('symbol');
-        return ok;
-      }
-
-      if (code ?? -1 < 0) {
-        return nok(code);
-      }
-
-      const c = String.fromCharCode(code ?? 0).toLowerCase();
-      if (validCodes.includes(c)) {
-        effects.consume(code);
-        return more;
-      }
-
-      return nok(code);
-    };
-
-    const open = (code: Code) => {
-      if (code ?? -1 < 0) {
-        return nok(code);
-      }
-
-      const c = String.fromCharCode(code ?? 0).toLowerCase();
-
-      if (validCodes.includes(c)) {
-        effects.enter('symbolValue');
-        effects.consume(code);
-        return more;
-      }
-
-      return nok(code);
-    };
-
-    return (code) => {
-      if (code !== codes.leftCurlyBrace) {
-        throw new Error('expected `{`');
-      }
-      effects.enter('symbol');
-      effects.enter('symbolStartMarker');
+const tokenizeSymbol = (effects: Effects, ok: State, nok: State): State => {
+  const more = (code: Code) => {
+    if (code === codes.rightCurlyBrace) {
+      // '}'
+      effects.exit('symbolValue');
+      effects.enter('symbolEndMarker');
       effects.consume(code);
-      effects.exit('symbolStartMarker');
-      return open;
-    };
+      effects.exit('symbolEndMarker');
+      effects.exit('symbol');
+      return ok;
+    }
+
+    if ((code ?? -1) < 0) {
+      return nok(code);
+    }
+    effects.consume(code);
+    return more;
   };
 
-  const symbol: Construct = {
-    tokenize: tokenizeSymbol,
+  const open = (code: Code) => {
+    if ((code ?? -1) < 0) {
+      return nok(code);
+    }
+
+    effects.enter('symbolValue');
+    effects.consume(code);
+    return more;
   };
 
-  return {
-    text: {
-      [codes.leftCurlyBrace]: symbol,
-    },
+  return (code) => {
+    if (code !== codes.leftCurlyBrace) {
+      throw new Error('expected `{`');
+    }
+    effects.enter('symbol');
+    effects.enter('symbolStartMarker');
+    effects.consume(code);
+    effects.exit('symbolStartMarker');
+    return open;
   };
 };
 
-export default symbols;
+const symbol: Construct = {
+  tokenize: tokenizeSymbol,
+};
+
+export default {
+  text: {
+    [codes.leftCurlyBrace]: symbol,
+  },
+};

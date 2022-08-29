@@ -24,6 +24,7 @@ import gfm from 'remark-gfm';
 import math from 'remark-math';
 import remark from 'remark-parse';
 import slug from 'remark-slug';
+import { all, defaultHandlers, Handler } from 'mdast-util-to-hast';
 
 import type { PluggableList } from 'react-markdown/lib/react-markdown.js';
 import cardlink from './cardlink/index.js';
@@ -32,20 +33,38 @@ import centering from './centering/index.js';
 import symbols from './symbols/index.js';
 import userlink from './userlink/index.js';
 
-const VALID_SYMBOLS = 'wubrgcmtsqepxyz/-0123456789->+→';
-
 const FUNCTION_PLUGINS: PluggableList = [cardrow, centering, math, cardlink];
 
-const ARRAY_PLUGINS: PluggableList = [
-  [gfm, { singleTilde: false }],
-  [symbols, { allowed: VALID_SYMBOLS }],
-];
+const ARRAY_PLUGINS: PluggableList = [[gfm, { singleTilde: false }]];
 
 const BASE_PLUGINS: PluggableList = [...FUNCTION_PLUGINS, ...ARRAY_PLUGINS];
 
 export const LIMITED_PLUGINS = [...BASE_PLUGINS, userlink, breaks];
 
-export const ALL_PLUGINS = [...LIMITED_PLUGINS, slug, headings];
+// @ts-ignore
+export const ALL_PLUGINS = [...LIMITED_PLUGINS, slug, headings, symbols];
+
+export const HAST_HANDLER: Handler = (h, node) => {
+  let result = h(node, node.type, node);
+  if (node.children) {
+    result = h(node, node.type, node, all(h, node));
+  }
+  return result;
+};
+
+export const remarkRehypeOptions = {
+  handlers: {
+    ...defaultHandlers,
+    cardimage: HAST_HANDLER,
+    cardlink: HAST_HANDLER,
+    cardrow: HAST_HANDLER,
+    centering: HAST_HANDLER,
+    inlineMath: HAST_HANDLER,
+    math: HAST_HANDLER,
+    symbol: HAST_HANDLER,
+    userlink: HAST_HANDLER,
+  },
+};
 
 export const findUserLinks = (text: string): string[] => {
   const mentions: string[] = [];
@@ -53,16 +72,18 @@ export const findUserLinks = (text: string): string[] => {
     .use(remark)
     .use(BASE_PLUGINS)
     .use(userlink, { callback: (name: string) => mentions.push(name) });
-  processor.runSync(processor.parse(text));
+  const parsed = processor.parse(text);
+  processor.runSync(parsed);
   return mentions;
 };
 
 export default {
   findUserLinks,
-  VALID_SYMBOLS,
   BASE_PLUGINS,
+  HAST_HANDLER,
   LIMITED_PLUGINS,
   ALL_PLUGINS,
+  remarkRehypeOptions,
   cardrow,
   centering,
   cardlink,

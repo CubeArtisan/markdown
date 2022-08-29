@@ -20,13 +20,27 @@
 import PropTypes from 'prop-types';
 import { Box, BoxProps, Grid, Link, Paper, Typography } from '@mui/material';
 
+import type { ComponentType, FC, ReactNode } from 'react';
 import Markdown from './Markdown.js';
+import type { CardLiteral } from '../plugins/cardlink/mdast-cardlink.js';
 
 const Header = (props: BoxProps = {}) => <Box color="background.darker" {...props} />;
 
 const Body = (props: BoxProps = {}) => <Box {...props} />;
 
-export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) => (
+interface MarkdownHelpPropTypes {
+  siteName: string;
+  renderCardLink: ComponentType<CardLiteral>;
+  renderCardImage: ComponentType<CardLiteral>;
+  renderExternalLink: ComponentType<{ href: string; children: ReactNode }>;
+}
+
+export const MarkdownHelp: FC<MarkdownHelpPropTypes> = ({
+  siteName,
+  renderCardLink,
+  renderCardImage,
+  renderExternalLink,
+}) => (
   <Paper elevation={2} sx={{ marginY: 3, marginX: 4 }}>
     <Header>
       <Typography variant="h4">Markdown Guide</Typography>
@@ -104,9 +118,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown="[[Ambush Viper]]"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -140,9 +154,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Header>Result</Header>
             <Body>
               <Markdown
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
                 markdown={
                   '[[Old Border Mystic Snake|f098a28c-5f9b-4a2c-b109-c342365eb948]]\n[[New Border Mystic Snake|38810fe4-dc72-439e-adf7-362af772b8f8]]'
                 }
@@ -174,9 +188,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Header>Result</Header>
             <Body>
               <Markdown
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
                 markdown={'[[/Delver of Secrets]]\n[[/Delver of Secrets|28059d09-2c7d-4c61-af55-8942107a7c1f]]'}
               />
             </Body>
@@ -203,9 +217,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown="[[!Hexdrinker]]"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -230,9 +244,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown="[[!/Delver of Secrets]]"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -260,9 +274,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown="[[!Hexdrinker]][[!Lotus Cobra]][[!Snake]]"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -286,9 +300,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown="<<[[!Hexdrinker]][[!Lotus Cobra]][[!Snake]]>>"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -318,9 +332,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown="{W}{U}{B}{R}{G}"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -345,9 +359,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown="{W/U}{G/U}{B/R}{R/W}{B/G}"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -374,9 +388,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown={'{2/W}{2/U}{2/B}{2/R}{2/G}\n{W/P}{U/P}{B/P}{R/P}{G/P}\n'}
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -403,9 +417,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown="{e}{T}{q}{s}{X}{Y}{15}"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -435,9 +449,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown="This suggestion was made by @dekkaru"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -470,9 +484,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown={'Some inline latex here $\\frac{\\sum_{i=1}^N x_i}{N}$ text after'}
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -500,9 +514,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown={'$$\n\\frac{\\sum_{i=1}^N x_i}{N}\n$$'}
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -529,16 +543,16 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown={'> $\\frac{\\sum_{i=1}^N x_i}{N}$'}
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
               <br />
               <Markdown
                 markdown={'### $\\frac{\\sum_{i=1}^N x_i}{N}$'}
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -567,9 +581,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown="~~This text is strikethrough~~"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -598,9 +612,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown=">>> This text is centered <<<"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -628,9 +642,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown=">>> Centered Card: [[!Hexdrinker]] <<<"
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -657,9 +671,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown={`>>>\n#### Centered heading\n<<<`}
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -689,9 +703,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown={`>>>\nCentered paragraph\nspanning\nmultiple\nlines\n<<<`}
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -727,9 +741,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown={'| W | U | B | R | G |\n|---|---|---|---|---|\n| 15| 7 | 12| 35| 0 |'}
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -762,9 +776,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Header>Result</Header>
             <Body>
               <Markdown
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
                 markdown={
                   '| Left align | Center align | Right align |\n| :--------- | :----------: | ----------: |\n|Aligned left|Aligned center|Aligned right|\n|{W}{U}{B}{R}|[[Hexdrinker]]| *emphasized*|'
                 }
@@ -803,9 +817,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Header>Result</Header>
             <Body>
               <Markdown
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
                 markdown={
                   '- [x] Completed item.\n- [ ] Not completed item.\n  - [x] Task lists can be nested.\n\n1. [x] Numbered task.\n2. [ ] Unfinished numbered task.'
                 }
@@ -849,9 +863,9 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
             <Body>
               <Markdown
                 markdown={'```js\nconst x = { a: b+1 };\nconsole.log(this);\n```'}
-                CardLink={CardLink}
-                CardImage={CardImage}
-                ExternalLink={ExternalLink}
+                renderCardLink={renderCardLink}
+                renderCardImage={renderCardImage}
+                renderExternalLink={renderExternalLink}
               />
             </Body>
           </Paper>
@@ -862,11 +876,14 @@ export const MarkdownHelp = ({ siteName, CardLink, CardImage, ExternalLink }) =>
 );
 MarkdownHelp.propTypes = {
   siteName: PropTypes.string.isRequired,
-  CardLink: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
-  CardImage: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
-  ExternalLink: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+  // @ts-ignore
+  renderCardLink: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
+  // @ts-ignore
+  renderCardImage: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
+  // @ts-ignore
+  renderExternalLink: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
 };
 MarkdownHelp.defaultProps = {
-  ExternalLink: 'a',
+  renderExternalLink: Link,
 };
 export default MarkdownHelp;

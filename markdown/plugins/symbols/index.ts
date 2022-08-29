@@ -12,8 +12,7 @@ function symbols(this: Processor<void, Node>, options: any): void {
   }
 
   const data = this.data();
-  const valid = options?.allowed || '';
-  add(data, 'micromarkExtensions', syntax(valid));
+  add(data, 'micromarkExtensions', syntax);
   add(data, 'fromMarkdownExtensions', fromMarkdown);
 }
 

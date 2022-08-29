@@ -10,7 +10,6 @@ const FORMAT_MAP = {
   cjs: 'cjs',
   umd: 'umd.cjs',
 };
-
 export default defineConfig({
   build: {
     lib: {
